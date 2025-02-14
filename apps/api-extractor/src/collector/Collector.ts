@@ -802,6 +802,7 @@ export class Collector {
 
       let declaredReleaseTag: ReleaseTag = ReleaseTag.None;
       let extraReleaseTags: boolean = false;
+      let customReleaseTagName: string = '';
 
       if (modifierTagSet.isPublic()) {
         declaredReleaseTag = ReleaseTag.Public;
@@ -828,6 +829,19 @@ export class Collector {
         }
       }
 
+      // Adding custom doc logic
+      // To do, try to add release tag name and definition in extractor config
+      const customTag: tsdoc.TSDocTagDefinition | void =
+        this.extractorConfig.tsdocConfiguration.tryGetTagDefinition('@stable');
+      if (customTag && modifierTagSet.hasTag(customTag)) {
+        if (declaredReleaseTag !== ReleaseTag.None) {
+          extraReleaseTags = true;
+        } else {
+          declaredReleaseTag = ReleaseTag.Custom;
+          customReleaseTagName = customTag.tagName;
+        }
+      }
+
       if (extraReleaseTags) {
         if (!astDeclaration.astSymbol.isExternal) {
           // for now, don't report errors for external code
@@ -845,6 +859,7 @@ export class Collector {
       options.isOverride = modifierTagSet.isOverride();
       options.isSealed = modifierTagSet.isSealed();
       options.isVirtual = modifierTagSet.isVirtual();
+      options.customReleaseTagName = customReleaseTagName;
       const preapprovedTag: tsdoc.TSDocTagDefinition | void =
         this.extractorConfig.tsdocConfiguration.tryGetTagDefinition('@preapproved');
 

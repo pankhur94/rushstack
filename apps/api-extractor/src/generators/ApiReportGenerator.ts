@@ -560,7 +560,11 @@ export class ApiReportGenerator {
       const apiItemMetadata: ApiItemMetadata = collector.fetchApiItemMetadata(astDeclaration);
       if (!apiItemMetadata.releaseTagSameAsParent) {
         if (apiItemMetadata.effectiveReleaseTag !== ReleaseTag.None) {
-          footerParts.push(ReleaseTag.getTagName(apiItemMetadata.effectiveReleaseTag));
+          if (apiItemMetadata.effectiveReleaseTag === ReleaseTag.Custom) {
+            footerParts.push(apiItemMetadata.customReleaseTagName);
+          } else {
+            footerParts.push(ReleaseTag.getTagName(apiItemMetadata.effectiveReleaseTag));
+          }
         }
       }
 

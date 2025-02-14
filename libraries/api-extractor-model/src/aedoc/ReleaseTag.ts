@@ -41,7 +41,11 @@ export enum ReleaseTag {
    * Indicates that an API item has been officially released. It is part of the supported
    * contract (e.g. SemVer) for a package.
    */
-  Public = 4
+  Public = 4,
+  /**
+   * Indicates that an API item has a custom release tag.
+   */
+  Custom = 5
 }
 
 /**
@@ -67,6 +71,8 @@ export namespace ReleaseTag {
         return '@beta';
       case ReleaseTag.Public:
         return '@public';
+      case ReleaseTag.Custom:
+        return '(custom)';
       default:
         throw new Error('Unsupported release tag');
     }

@@ -220,7 +220,9 @@ export class ValidationEnhancer {
         localName = collectorEntity?.nameForEmit || rootSymbol.localName;
 
         const referencedMetadata: SymbolMetadata = collector.fetchSymbolMetadata(referencedEntity);
-        referencedReleaseTag = referencedMetadata.maxEffectiveReleaseTag;
+        //To do, this has to be looked upon. Ideally maxEffectiveReleaseTag set for custom tag based on its level(We could have a field in config).
+        referencedReleaseTag =
+          declarationReleaseTag === 5 ? declarationReleaseTag : referencedMetadata.maxEffectiveReleaseTag;
       } else if (referencedEntity instanceof AstNamespaceImport) {
         collectorEntity = collector.tryGetCollectorEntity(referencedEntity);
 

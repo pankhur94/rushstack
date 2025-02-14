@@ -17,6 +17,7 @@ export interface IApiItemMetadataOptions {
   isSealed: boolean;
   isVirtual: boolean;
   isPreapproved: boolean;
+  customReleaseTagName?: string;
 }
 
 /**
@@ -69,6 +70,7 @@ export class ApiItemMetadata {
 
   public readonly isPreapproved: boolean;
 
+  public readonly customReleaseTagName: string;
   /**
    * This is the TSDoc comment for the declaration.  It may be modified (or constructed artificially) by
    * the DocCommentEnhancer.
@@ -101,5 +103,6 @@ export class ApiItemMetadata {
     this.isSealed = options.isSealed;
     this.isVirtual = options.isVirtual;
     this.isPreapproved = options.isPreapproved;
+    this.customReleaseTagName = options.customReleaseTagName ?? '';
   }
 }
